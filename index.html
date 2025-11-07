@@ -1,323 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SmartMove – Move Smarter. Together.</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f9fbfc;
-      color: #2c3e50;
-      overflow-x: hidden;
-    }
 
-    /* ================= Loader ================= */
-    #loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 1000;
-      transition: opacity 1s ease;
-    }
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css" />
 
-    .traffic-light {
-      width: 80px;
-      height: 200px;
-      background: #222;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      padding: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-    .light {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      opacity: 0.3;
-    }
-    .light.red { background: red; animation: red 6s infinite; }
-    .light.yellow { background: yellow; animation: yellow 6s infinite; }
-    .light.green { background: limegreen; animation: green 6s infinite; }
-
-    @keyframes red {
-      0%, 33% { opacity: 1; box-shadow: 0 0 20px red; }
-      34%, 100% { opacity: 0.3; box-shadow: none; }
-    }
-    @keyframes yellow {
-      0%, 33% { opacity: 0.3; box-shadow: none; }
-      34%, 66% { opacity: 1; box-shadow: 0 0 20px yellow; }
-      67%, 100% { opacity: 0.3; box-shadow: none; }
-    }
-    @keyframes green {
-      0%, 66% { opacity: 0.3; box-shadow: none; }
-      67%, 100% { opacity: 1; box-shadow: 0 0 20px limegreen; }
-    }
-
-    /* ================= Header ================= */
-    header {
-      text-align: center;
-      padding: 2rem 1rem 1rem;
-      background: linear-gradient(135deg, #3498db, #2ecc71);
-      color: white;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
-
-    .logo img {
-      height: 50px;   
-      border-radius: 50%;
-    }
-
-    .logo h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-    }
-
-    .tagline {
-      font-size: 1.2rem;
-      font-weight: 300;
-      margin-top: 0.5rem;
-    }
-
-    /* Mini traffic light in header */
-    .mini-traffic {
-      width: 40px;
-      height: 100px;
-      background: #111;
-      border-radius: 12px;
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      box-shadow: 0 0 8px rgba(0,0,0,0.4);
-    }
-
-    .mini-light {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      opacity: 0.3;
-      transition: opacity 0.3s, box-shadow 0.3s;
-    }
-
-    .mini-light.red {
-      background: red;
-      animation: redMini 6s infinite;
-    }
-    .mini-light.yellow {
-      background: yellow;
-      animation: yellowMini 6s infinite;
-    }
-    .mini-light.green {
-      background: limegreen;
-      animation: greenMini 6s infinite;
-    }
-
-    @keyframes redMini {
-      0%, 33% { opacity: 1; box-shadow: 0 0 10px red; }
-      34%, 100% { opacity: 0.3; box-shadow: none; }
-    }
-    @keyframes yellowMini {
-      0%, 33% { opacity: 0.3; box-shadow: none; }
-      34%, 66% { opacity: 1; box-shadow: 0 0 10px yellow; }
-      67%, 100% { opacity: 0.3; box-shadow: none; }
-    }
-    @keyframes greenMini {
-      0%, 66% { opacity: 0.3; box-shadow: none; }
-      67%, 100% { opacity: 1; box-shadow: 0 0 10px limegreen; }
-    }
-
-    /* ================= Main ================= */
-    main {
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .intro h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #2c3e50;
-    }
-
-    .intro p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      color: #555;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.8rem 1.5rem;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-
-    .btn.primary {
-      background: #3498db;
-      color: white;
-    }
-
-    .btn.primary:hover {
-      background: #2980b9;
-    }
-
-    .btn.secondary {
-      border: 2px solid #2ecc71;
-      color: #2ecc71;
-    }
-
-    .btn.secondary:hover {
-      background: #2ecc71;
-      color: white;
-    }
-
-    .features {
-      margin-top: 4rem;
-    }
-
-    .features h3 {
-      margin-bottom: 2rem;
-      font-size: 1.8rem;
-      color: #2c3e50;
-    }
-
-    .cards {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      width: 280px;
-      text-align: left;
-    }
-
-    .card h4 {
-      color: #3498db;
-      margin-bottom: 0.5rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #ecf0f1;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    /* ================= Popups ================= */
-    .popup, .beta-form {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.4s, visibility 0.4s;
-      z-index: 999;
-    }
-
-    .popup.active, .beta-form.active {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .popup-content, .form-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    .popup-content h3 {
-      margin-bottom: 1rem;
-    }
-
-    .popup-content button, .form-content button {
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background: #3498db;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .form-content input {
-      width: 90%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-  </style>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body>
-  <!-- Loader -->
-  <div id="loader">
-    <div class="traffic-light">
-      <div class="light red"></div>
-      <div class="light yellow"></div>
-      <div class="light green"></div>
-    </div>
-  </div>
+  <!-- Optional loader you can keep commented if not used -->
+  <div id="loader" class="hidden"></div>
 
-  <!-- Header -->
   <header>
-    <div class="header-container">
+    <div class="header-inner">
       <div class="logo">
         <img src="logo.png" alt="SmartMove Logo">
         <h1>SmartMove</h1>
       </div>
 
-      <div class="mini-traffic">
+      <!-- mini traffic signal -->
+      <div class="mini-traffic" aria-hidden="true">
         <div class="mini-light red"></div>
         <div class="mini-light yellow"></div>
         <div class="mini-light green"></div>
@@ -327,101 +34,68 @@
     <p class="tagline">Move Smarter. Together.</p>
   </header>
 
-  <!-- Main Content -->
   <main>
     <section class="intro">
       <h2>Your City. In Motion.</h2>
       <p>SmartMove helps everyone see real-time movement across the city — powered by crowd data and smart speed detection.</p>
+
       <div class="buttons">
-        <button class="btn primary" id="mapBtn">View Live Map Demo</button>
-        <button class="btn secondary" id="betaBtn">Join Beta Program</button>
+        <button id="mapDemoBtn" class="btn primary">View Live Map Demo</button>
+        <button id="joinBetaBtn" class="btn secondary">Join Beta Program</button>
       </div>
+
+      <p id="mapHint" class="map-hint">Click "View Live Map Demo" to open the live preview and allow location access.</p>
+    </section>
+
+    <!-- Map (initially hidden) -->
+    <section id="mapSection" class="map-section" style="display:none;opacity:0;">
+      <h3>SmartMove Live Map</h3>
+      <div id="map"></div>
+      <p id="locationStatus" class="location-status"></p>
     </section>
 
     <section class="features">
       <h3>What Makes SmartMove Unique?</h3>
       <div class="cards">
-        <div class="card">
-          <h4>🚗 Detects Movement</h4>
-          <p>Automatically detects if you’re in a car, bus, or bike using smart speed sensors.</p>
-        </div>
-        <div class="card">
-          <h4>🗺 Live Crowd Map</h4>
-          <p>View your city’s traffic in real-time — powered by everyone around you.</p>
-        </div>
-        <div class="card">
-          <h4>🤝 Community Driven</h4>
-          <p>Every movement helps make your city’s traffic smarter and more efficient.</p>
-        </div>
+        <div class="card"><h4>🚗 Detects Movement</h4><p>Automatically detects if you’re in a car, bus, or bike using smart speed sensors.</p></div>
+        <div class="card"><h4>🗺 Live Crowd Map</h4><p>View your city’s traffic in real-time — powered by everyone around you.</p></div>
+        <div class="card"><h4>🤝 Community Driven</h4><p>Every movement helps make your city’s traffic smarter and more efficient.</p></div>
       </div>
     </section>
   </main>
 
   <footer>
     <p>© 2025 SmartMove | Move Smarter. Together.</p>
+    <button class="dev-btn" onclick="window.open('https://mujtabarather.netlify.app', '_blank')">👨‍💻 Built by Mujtaba</button>
+    <p class="traffic-line">🚦 Stay alert, stay smart — SmartMove keeps your city moving.</p>
   </footer>
 
-  <!-- Map Popup -->
-  <div class="popup" id="mapPopup">
-    <div class="popup-content">
-      <div class="traffic-light" style="margin:auto;">
-        <div class="light red"></div>
-        <div class="light yellow"></div>
-        <div class="light green"></div>
+  <!-- Vehicle choice modal (hidden) -->
+  <div id="vehicleModal" class="modal">
+    <div class="modal-box">
+      <h3>Looks like you're moving</h3>
+      <p>Are you traveling by car or bus right now?</p>
+      <div class="modal-actions">
+        <button id="chooseCar" class="btn primary">🚗 Car</button>
+        <button id="chooseBus" class="btn secondary">🚌 Bus</button>
       </div>
-      <h3>🚧 Live Map Feature Coming Soon!</h3>
-      <p>Stay tuned for SmartMove’s real-time traffic map.</p>
-      <button onclick="closePopup('mapPopup')">OK</button>
+      <button class="close-x" onclick="closeVehicleModal()">✕</button>
     </div>
   </div>
 
-  <!-- Beta Form -->
-  <div class="beta-form" id="betaForm">
-    <div class="form-content">
-      <h3>Join SmartMove Beta</h3>
-      <p>Get notified when we launch.</p>
-      <input type="email" id="email" placeholder="Enter your email" />
-      <button onclick="submitEmail()">Submit</button>
-      <button onclick="closePopup('betaForm')" style="background:#ccc; color:#000; margin-left:10px;">Cancel</button>
-    </div>
+  <!-- Floating status card -->
+  <div id="statusCard" class="status-card hidden">
+    <div><strong id="modeLabel">Mode: —</strong></div>
+    <div>Speed: <span id="speedLabel">0</span> km/h</div>
+    <div id="motionLabel">Status: —</div>
+    <div class="small-note">Tap the map button to hide/show map</div>
   </div>
 
-  <script>
-    // Loader
-    window.addEventListener("load", () => {
-      const loader = document.getElementById("loader");
-      setTimeout(() => {
-        loader.style.opacity = "0";
-        setTimeout(() => loader.style.display = "none", 1000);
-      }, 3000);
-    });
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    // Popup Controls
-    const mapBtn = document.getElementById("mapBtn");
-    const betaBtn = document.getElementById("betaBtn");
-
-    mapBtn.addEventListener("click", () => {
-      document.getElementById("mapPopup").classList.add("active");
-    });
-
-    betaBtn.addEventListener("click", () => {
-      document.getElementById("betaForm").classList.add("active");
-    });
-
-    function closePopup(id) {
-      document.getElementById(id).classList.remove("active");
-    }
-
-    function submitEmail() {
-      const email = document.getElementById("email").value;
-      if (email.trim() === "") {
-        alert("Please enter a valid email.");
-        return;
-      }
-      alert("Thank you! You’ll be notified about SmartMove Beta soon.");
-      closePopup("betaForm");
-      document.getElementById("email").value = "";
-    }
-  </script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
 </body>
 </html>
